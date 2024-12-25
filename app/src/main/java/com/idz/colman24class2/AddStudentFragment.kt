@@ -3,11 +3,14 @@ package com.idz.colman24class2
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.navigation.Navigation
 
 class AddStudentFragment : Fragment() {
 
@@ -16,6 +19,11 @@ class AddStudentFragment : Fragment() {
     var nameEditText: EditText? = null
     var idEditText: EditText? = null
     var savedMessageTextView: TextView? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +36,11 @@ class AddStudentFragment : Fragment() {
         cancelButton?.setOnClickListener(::onCancelClicked)
         saveButton?.setOnClickListener(::onSaveClicked)
         return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun setup(view: View?) {
@@ -45,6 +58,6 @@ class AddStudentFragment : Fragment() {
     }
 
     private fun onCancelClicked(view: View) {
-
+        Navigation.findNavController(view).popBackStack()
     }
 }

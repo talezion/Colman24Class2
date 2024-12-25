@@ -33,13 +33,13 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        // TODO: 1 - Set MainActivity Launcher ✅
-        // TODO: 2 - Create fragment from xml ✅
-        // TODO: 3 - Create a fragment programmatically ✅
-        // TODO: 4 - Manage nav args ✅
-        // TODO: 5 - Create a tab bar with multiple fragments 👨‍🎓
-        // TODO: 6 - Refactor students list
-        // TODO: 7 - GPS/Firebase
+        // TODO: 1 - Set up project
+        // TODO: 2 - Create nav_graph.xml and connect to nav host
+        // TODO: 3 - Connect list fragment with blue fragment action with back button
+        // TODO: 4 - Set navArgs for blue fragment
+        // TODO: 5 -
+        // TODO: 6 -
+        // TODO: 7 -
 
         fragmentOne = StudentsListFragment()
         fragmentTwo = BlueFragment.newInstance("2️⃣")

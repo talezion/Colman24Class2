@@ -37,9 +37,9 @@ class StudentsListViewActivity : AppCompatActivity() {
         // TODO: 5. Set dynamic data (MVP) 👨‍🎓
         // TODO: 6. On click on checkbox
 
-        students = Model.shared.students
-        val listView: ListView = findViewById(R.id.students_list_view)
-        listView.adapter = StudentsAdapter()
+//        students = Model.shared.students
+//        val listView: ListView = findViewById(R.id.students_list_view)
+//        listView.adapter = StudentsAdapter()
     }
 
     inner class StudentsAdapter(): BaseAdapter() {

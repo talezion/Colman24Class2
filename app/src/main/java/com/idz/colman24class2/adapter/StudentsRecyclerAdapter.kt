@@ -7,9 +7,13 @@ import com.idz.colman24class2.OnItemClickListener
 import com.idz.colman24class2.R
 import com.idz.colman24class2.model.Student
 
-class StudentsRecyclerAdapter(private val students: List<Student>?): RecyclerView.Adapter<StudentViewHolder>() {
+class StudentsRecyclerAdapter(private var students: List<Student>?): RecyclerView.Adapter<StudentViewHolder>() {
 
         var listener: OnItemClickListener? = null
+
+        fun set(students: List<Student>?) {
+            this.students = students
+        }
 
         override fun getItemCount(): Int = students?.size ?: 0
 

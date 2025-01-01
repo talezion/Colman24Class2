@@ -7,41 +7,44 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.idz.colman24class2.adapter.StudentsRecyclerAdapter
+import com.idz.colman24class2.databinding.FragmentStudentsListBinding
 import com.idz.colman24class2.model.Model
 import com.idz.colman24class2.model.Student
 
 class StudentsListFragment : Fragment() {
 
-    private var students: MutableList<Student>? = null
+    private var students: List<Student>? = null
+    private var adapter: StudentsRecyclerAdapter? = null
+
+    private var binding: FragmentStudentsListBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        // TODO: Set DB
-        // TODO: Refactor Model to support local db
-        // TODO: Refactor Fragments to work with live data
+        binding = FragmentStudentsListBinding.inflate(inflater, container, false)
+
+        // TODO: Set DB ✅
+        // TODO: Refactor Model to support local db ✅
+        // TODO: Refactor Fragments to work with live data ✅
         // TODO: Add progress indicator for better UX
         // TODO: Migrate to ViewBinding
 
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_students_list, container, false)
 
-        students = Model.shared.students
-        val recyclerView: RecyclerView = view.findViewById(R.id.students_list_activity_recycler_view)
-        recyclerView.setHasFixedSize(true)
+        binding?.recyclerView?.setHasFixedSize(true)
 
         val layoutManager = LinearLayoutManager(context)
-        recyclerView.layoutManager = layoutManager
+        binding?.recyclerView?.layoutManager = layoutManager
 
-        val adapter = StudentsRecyclerAdapter(students)
+        adapter = StudentsRecyclerAdapter(students)
 
-        adapter.listener = object : OnItemClickListener {
+        adapter?.listener = object : OnItemClickListener {
             override fun onItemClick(position: Int) {
                 Log.d("TAG", "On click Activity listener on position $position")
             }
@@ -53,17 +56,41 @@ class StudentsListFragment : Fragment() {
 
                 student?.let {
                     val action = StudentsListFragmentDirections.actionStudentsListFragmentToBlueFragment(it.name)
-                    Navigation.findNavController(view).navigate(action)
+                    binding?.root?.let {
+                        Navigation.findNavController(it).navigate(action)
+                    }
                 }
             }
         }
 
-        recyclerView.adapter = adapter
+        binding?.recyclerView?.adapter = adapter
 
-        val imageButton: ImageButton = view.findViewById(R.id.list_fragment_add_button)
         val action = StudentsListFragmentDirections.actionGlobalAddStudentFragment()
-        imageButton.setOnClickListener(Navigation.createNavigateOnClickListener(action))
+        binding?.addStudentButton?.setOnClickListener(Navigation.createNavigateOnClickListener(action))
 
-        return view
+        return binding?.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getAllStudents()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
+    }
+
+    private fun getAllStudents() {
+
+        binding?.progressBar?.visibility = View.VISIBLE
+
+        Model.shared.getAllStudents {
+            this.students = it
+            adapter?.set(it)
+            adapter?.notifyDataSetChanged()
+
+            binding?.progressBar?.visibility = View.GONE
+        }
     }
 }

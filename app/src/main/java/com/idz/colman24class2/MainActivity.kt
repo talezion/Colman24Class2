@@ -1,6 +1,8 @@
 package com.idz.colman24class2
 
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +14,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         // TODO: 7 -
 
         val toolbar: Toolbar = findViewById(R.id.main_toolbar)
+        toolbar.setBackgroundColor(Color.parseColor("#333333"))
         setSupportActionBar(toolbar)
 
         val navHostFragment: NavHostFragment? = supportFragmentManager.findFragmentById(R.id.main_nav_host) as? NavHostFragment

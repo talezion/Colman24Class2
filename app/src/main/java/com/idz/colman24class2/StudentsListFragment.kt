@@ -1,5 +1,6 @@
 package com.idz.colman24class2
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ProgressBar
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,10 +20,14 @@ import com.idz.colman24class2.model.Student
 
 class StudentsListFragment : Fragment() {
 
-    private var students: List<Student>? = null
     private var adapter: StudentsRecyclerAdapter? = null
-
     private var binding: FragmentStudentsListBinding? = null
+    private var viewModel: StudentsListViewModel? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        viewModel = ViewModelProvider(this)[StudentsListViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +48,7 @@ class StudentsListFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context)
         binding?.recyclerView?.layoutManager = layoutManager
 
-        adapter = StudentsRecyclerAdapter(students)
+        adapter = StudentsRecyclerAdapter(viewModel?.students)
 
         adapter?.listener = object : OnItemClickListener {
             override fun onItemClick(position: Int) {
@@ -86,7 +92,7 @@ class StudentsListFragment : Fragment() {
         binding?.progressBar?.visibility = View.VISIBLE
 
         Model.shared.getAllStudents {
-            this.students = it
+            viewModel?.set(students = it)
             adapter?.set(it)
             adapter?.notifyDataSetChanged()
 

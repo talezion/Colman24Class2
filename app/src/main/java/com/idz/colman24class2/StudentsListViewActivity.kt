@@ -1,19 +1,16 @@
 package com.idz.colman24class2
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.CheckBox
-import android.widget.ListView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.idz.colman24class2.model.Model
 import com.idz.colman24class2.model.Student
 
 class StudentsListViewActivity : AppCompatActivity() {
@@ -60,7 +57,7 @@ class StudentsListViewActivity : AppCompatActivity() {
                 parent,
                 false
             ).apply {
-                findViewById<CheckBox>(R.id.student_row_check_box).apply {
+                findViewById<CheckBox>(R.id.checkBox).apply {
                     setOnClickListener { view ->
                         (tag as? Int)?.let { tag ->
                             val student = students?.get(tag)
@@ -91,9 +88,9 @@ class StudentsListViewActivity : AppCompatActivity() {
 
             val student = students?.get(position)
 
-            val nameTextView: TextView? = view?.findViewById(R.id.student_row_name_text_view)
-            val idTextView: TextView? = view?.findViewById(R.id.student_row_id_text_view)
-            val checkBox: CheckBox? = view?.findViewById(R.id.student_row_check_box)
+            val nameTextView: TextView? = view?.findViewById(R.id.nameTextView)
+            val idTextView: TextView? = view?.findViewById(R.id.idTextView)
+            val checkBox: CheckBox? = view?.findViewById(R.id.checkBox)
 
             nameTextView?.text = student?.name
             idTextView?.text = student?.id

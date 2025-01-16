@@ -1,18 +1,22 @@
 package com.idz.colman24class2.model
 
+import android.graphics.Bitmap
 import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.firestoreSettings
 import com.google.firebase.firestore.memoryCacheSettings
+import com.google.firebase.storage.storage
 import com.idz.colman24class2.base.Constants
 import com.idz.colman24class2.base.EmptyCallback
 import com.idz.colman24class2.base.StudentsCallback
+import java.io.ByteArrayOutputStream
 
 class FirebaseModel {
 
     private val database = Firebase.firestore
+    private val storage = Firebase.storage
 
     init {
         val setting = firestoreSettings {
@@ -20,24 +24,6 @@ class FirebaseModel {
         }
 
         database.firestoreSettings = setting
-
-        val auth = Firebase.auth
-
-//        auth.createUserWithEmailAndPassword("talzi@colman.ac.il", "supperStrong")
-
-        auth.currentUser?.uid?.let {
-
-            Log.i("TAG", auth.currentUser?.uid ?: "No use uuid")
-
-            val json = hashMapOf(
-                "name" to "Tal",
-                "email" to "talzi@colman.ac.il"
-            )
-            database.collection("users").document(it).set(json)
-                .addOnCompleteListener {
-                    Log.i("TAG", auth.currentUser?.uid + "Saved" ?: "No use uuid")
-                }
-        }
     }
 
     fun getAllStudents(callback: StudentsCallback) {
@@ -63,26 +49,21 @@ class FirebaseModel {
                 callback()
             }
     }
+
+    fun uploadImage(image: Bitmap, name: String, callback: (String?) -> Unit) {
+        val storageRef = storage.reference
+        val imageProfileRef = storageRef.child("images/$name.jpg")
+        val baos = ByteArrayOutputStream()
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        val uploadTask = imageProfileRef.putBytes(data)
+        uploadTask
+            .addOnFailureListener { callback(null) }
+            .addOnSuccessListener { taskSnapshot ->
+            imageProfileRef.downloadUrl.addOnSuccessListener { uri ->
+                callback(uri.toString())
+            }
+        }
+    }
 }
-
-/*
-val db = Firebase.firestore
-
-// Create a new user with a first and last name
-val user = hashMapOf(
-    "first" to "Ada",
-    "last" to "Lovelace",
-    "born" to 1815,
-)
-
-// Add a new document with a generated ID
-db.collection("users")
-.add(user)
-.addOnSuccessListener { documentReference ->
-    Log.d("TAG", "DocumentSnapshot added with ID: ${documentReference.id}")
-}
-.addOnFailureListener { e ->
-    Log.w("TAG", "Error adding document", e)
-}
-
- */

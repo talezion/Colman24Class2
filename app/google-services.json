@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "759106210049",
-    "project_id": "colman25class2",
-    "storage_bucket": "colman25class2.firebasestorage.app"
+    "project_number": "1087935108526",
+    "project_id": "colmanclass1-25",
+    "storage_bucket": "colmanclass1-25.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:759106210049:android:d3a86e8ce85683be487300",
+        "mobilesdk_app_id": "1:1087935108526:android:968551aa96b605b12ce43f",
         "android_client_info": {
           "package_name": "com.idz.colman24class2"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCtacucZ2d01GnnwQDcIMCbAmUcBZY9V9c"
+          "current_key": "AIzaSyCDmz7i63hHk6MuP4CbC_ucGvc45x49cI8"
         }
       ],
       "services": {
